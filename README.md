@@ -1,7 +1,7 @@
 # **icingaclient** - Icinga windows installer
 
 # SYNOPSIS
-icingaclient \[*client fqdn*\] \[client address\] \[parent fqdn\] 
+icingaclient \[client fqdn\] \[client address\] \[parent fqdn\] 
 \[parent address\] \[zone name\]
 
 # DESCRIPTION
