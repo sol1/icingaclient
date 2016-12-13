@@ -2,23 +2,6 @@
 
 # nsis is a prerequsite - apt-get install nsis 
 
-# Generate a DOS batch file to allow Icinga's auto certificate signing.
-function dosSetup() {
-	win_icinga_dir='C:\Program Files\ICINGA2\'  	
-	win_pki_dir="${win_icinga_dir}pki"  	
-
-echo " 
-mkdir \"${win_pki_dir}\"
-
-cd \"${win_icinga_dir}sbin\"
-
-icinga2 pki new-cert --cn ${client_name} --key \"${win_pki_dir}\\${client_name}.key\" --cert \"${win_pki_dir}\\${client_name}.crt\"
-icinga2 pki save-cert --key \"${win_pki_dir}\\${client_name}.key\" --cert \"${win_pki_dir}\\${client_name}.crt\" --trustedcert \"${win_pki_dir}\\trusted-master.crt\" --host $master_name
-icinga2 pki request --host $master_name --port $master_port --ticket $ticket --key \"${win_pki_dir}\\${client_name}.key\" --cert \"${win_pki_dir}\\${client_name}.crt\" --trustedcert \"${win_pki_dir}\\trusted-master.crt\" --ca \"${win_pki_dir}\\ca.crt\"
-icinga2 node setup --ticket $ticket --endpoint $master_name --zone ${client_name} --master_host $master_name --trustedcert \"${win_pki_dir}\\trusted-master.crt\" --cn ${client_name}
-	"
-}
-
 function createClientCert() {
 	local client="$1"
 	local clientkey="${client}.key"
@@ -165,9 +148,6 @@ sed -e "s/%%CLIENT_NAME%%/${client_name}/g" \
     -e "s/%%PARENT_IP%%/${parent_ip}/g" \
     -e "s/%%PARENT_ZONE%%/${parent_zone}/g" \
     -i *
-
-# Create the DOS file
-#dosSetup > ${WORKING_DIR}/${client_name}.bat
 
 # Generate and sign the client certificate.
 createClientCert "${client_name}"
