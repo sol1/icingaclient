@@ -31,7 +31,7 @@ nsis:
 
 clean: 
 	@echo "Cleaning..."
-	rm	${clientdir}/icinga2-setup-client \
+	rm	${clientdir}/icinga2-setup-client.sh \
 		${clientdir}/icinga2.conf \
 		${clientdir}/icinga2-setup-windows-child.nsis \
 		${clientdir}/Icinga2-v2.5.4-x86_64.msi
