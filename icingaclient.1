@@ -1,0 +1,51 @@
+.Dd $Mdocdate$
+.Dt ICINGACLIENT 1
+.Os
+.Sh NAME
+.Nm icingaclient
+.Nd generate a Windows installer for Icinga2
+.Sh SYNOPSIS
+.Nm icingaclient
+.Op Ar client_fqdn
+.Op Ar client_address
+.Op Ar parent_fqdn
+.Op Ar parent_address
+.Op Ar zone_name
+.Sh DESCRIPTION
+.Nm
+is a program that creates a 'one-click' installer for a Windows-based Icinga2
+client. The installer automates the enrolment of the node into an existing
+Icinga2 cluster. 
+.Pp
+There are two usage modes. Arguments can be passed to
+.Nm
+from the command line. If no arguments are specified, 
+.Nm 
+will prompt the user for input. In the case where the parent zone name is not
+equivalent to the parent's hostname, 
+.Ar zone_name 
+may be appended after all other arguments.
+.Pp
+.Nm 
+is simply a collection of wrapper scripts. Firstly, icinga2(1) pki
+commands are called for SSL certificate generation. 
+Configuration files are then built for parent and client nodes. Finally,
+nsis(1) bundles the generated files into a familiar 'exe' install wizard for
+Windows.
+
+.Sh EXAMPLES
+Create an installer for a Windows host called 
+.Pa dc01.business.com
+whose parent Icinga instance is 
+.Pa icingahq.business.com
+.Dl $ icingaclient dc01.business.com 10.0.0.25 icingahq.business.com 10.0.0.15 
+
+Configure a client in an icinga zone where the zone name is not the same as the
+hostname of the parent. 
+.Dl $ icingaclient dc01.business.com 10.0.0.25 icingahq.business.com 10.0.0.15 "master-zone"
+
+.Sh SEE ALSO
+.Xr icinga2 1 ,
+.Xr makensis 1 ,
+and the official Icinga2 documentation at
+.Lk https://docs.icinga.org/icinga2/latest/

@@ -25,7 +25,7 @@ nsis:
 	@echo "Checking for dependency: $@" 
 	@if which makensis; then : ; \
 	else \
-		echo "$@ is a dependency but its binary was not found in PATH."; \
+		echo "$@ is a dependency but it was not found in PATH."; \
 		exit 1; \
 	fi
 
