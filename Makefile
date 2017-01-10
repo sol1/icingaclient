@@ -7,6 +7,7 @@ files = icinga2-setup-client.sh \
 		Icinga2-v2.6.0-x86_64.msi \
 		icinga2-setup-windows-child.nsis \
 		Makefile \
+		icingaclient.1 \
 		README.md
 
 install: confdir nsis manpath
@@ -40,7 +41,7 @@ manpath:
 	fi
 
 clean: 
-	@echo "Cleaning..."
+	echo "Cleaning..."
 	rm	${clientdir}/icinga2-setup-client.sh \
 		${clientdir}/icinga2.conf \
 		${clientdir}/icinga2-setup-windows-child.nsis \
@@ -49,7 +50,7 @@ clean:
 	mandb
 
 dist:
-	@echo "Creating dist tarball..."
+	echo "Creating dist tarball..."
 	@mkdir -p icingaclient
 	@cp -R ${files} icingaclient/
 	@tar -czf icingaclient.tgz icingaclient
