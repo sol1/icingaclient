@@ -75,7 +75,7 @@ Section "Icinga2 Setup" icinga2Setup
   SetOutPath "$INSTDIR"
 
   ;ADD YOUR OWN FILES HERE...
-  ExecWait '"msiexec" /i "$INSTDIR\Icinga2-v2.5.4-x86_64.msi" /qn'
+  ExecWait '"msiexec" /i "$INSTDIR\Icinga2-v2.6.0-x86_64.msi" /qn'
 
   ; start it in case it creates stuff on init
   ExecWait 'net start icinga2'
@@ -111,7 +111,7 @@ SectionEnd
 ;Descriptions
 
   ;Language strings
-  LangString DESC_icinga2Setup ${LANG_ENGLISH} "Silently install Icinga2 version 2.5.4 x64."
+  LangString DESC_icinga2Setup ${LANG_ENGLISH} "Silently install Icinga2 version 2.6.0 x64."
   LangString DESC_icinga2Config ${LANG_ENGLISH} "Configure ${CLIENT_NAME} as client of ${PARENT_NAME}."
 
   ;Assign language strings to sections
