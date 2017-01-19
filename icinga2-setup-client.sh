@@ -69,12 +69,7 @@ parent_name=$(setParam "$3" "fqdn of the parent")
 parent_ip=$(setParam "$4" "parent IP")
 parent_zone=$(setParam "$5" "zone name of the parent")
 
-# For now we assume the parent node name is the same as the master node name.
-# The ability to set up a client of a satellite node is coming later.
-master_name="${parent_name}"
-master_port="5665" 	
-
-server_zones_file="/etc/icinga2/zones.d/${master_name}/${client_name}.conf"
+server_zones_file="/etc/icinga2/zones.d/${parent_zone}/${client_name}.conf"
 server_hosts_file="${server_zones_file}"
 
 
