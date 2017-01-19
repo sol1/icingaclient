@@ -2,7 +2,7 @@ installpath = "/usr/local/bin"
 manpath = "/usr/local/man/man1"
 clientdir = "/etc/icinga2/scripts/files"
 
-files = icinga2-setup-client.sh \
+files = icingaclient.sh \
 		icinga2.conf \
 		Icinga2-v2.6.0-x86_64.msi \
 		icinga2-setup-windows-child.nsis \
@@ -11,7 +11,7 @@ files = icinga2-setup-client.sh \
 		README.md
 
 install: confdir nsis manpath
-	cp icinga2-setup-client.sh ${installpath}/icingaclient
+	cp icingaclient.sh ${installpath}/icingaclient
 	cp icinga2.conf ${clientdir}/
 	cp icinga2-setup-windows-child.nsis ${clientdir}/
 	cp Icinga2-v2.6.0-x86_64.msi ${clientdir}/
@@ -42,7 +42,7 @@ manpath:
 
 clean: 
 	echo "Cleaning..."
-	rm	${clientdir}/icinga2-setup-client.sh \
+	rm	${clientdir}/icingaclient.sh \
 		${clientdir}/icinga2.conf \
 		${clientdir}/icinga2-setup-windows-child.nsis \
 		${clientdir}/Icinga2-v2.6.0-x86_64.msi \
