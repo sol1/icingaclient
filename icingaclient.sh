@@ -108,7 +108,7 @@ object Endpoint \"${client_name}\" {
 
 object Zone \"${client_name}\" {
         endpoints = [ \"${client_name}\" ]
-       	parent = \"${parent_name}\"
+       	parent = \"${parent_zone}\"
 }
 
 " >> "${server_zones_file}"
@@ -139,7 +139,7 @@ cd "${WORKING_DIR}/"
 # Replace vars in all client files
 sed -e "s/%%CLIENT_NAME%%/${client_name}/g" \
     -e "s/%%CLIENT_IP%%/${client_ip}/g" \
-    -e "s/%%PARENT_NAME%%/${parent_name}/g" \
+    -e "s/%%PARENT_NAME%%/${parent_zone}/g" \
     -e "s/%%PARENT_IP%%/${parent_ip}/g" \
     -e "s/%%PARENT_ZONE%%/${parent_zone}/g" \
     -i *
