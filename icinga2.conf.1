@@ -1,0 +1,88 @@
+.Dd $Mdocdate$
+.Dt ICINGA2.CONF 5
+.Os
+.Sh
+.Nm icinga2.conf
+.Nd Icinga2 monitoring daemon configuration file
+.Sh DESCRIPTION
+.Nm
+is the configuration file for
+.Xr icinga2 1 .
+It consists of two sections:
+.Bl -inset
+.It Sx CONSTANTS
+are defined variables that can be used later, generally to simplify the
+configuration file.
+.It Sx OBJECTS
+allow the daemon to participate in an
+.Xr icinga2 1
+cluster.
+.Pp
+Additional configuration files can be included with the
+.Ic include
+keyword.
+.El
+.Sh CONSTANTS
+Constants can be reused later in the configuration file to avoid repetition. 
+.Sh OBJECTS
+Objects definitions start with a declaration of the object
+.Ar type
+and
+.Ar name :
+.Bl -tag -width Ds
+.It Ic object Ar type Ar name Brq ...
+.El
+.Pp
+Followed by a block of attributes to be assigned to that object. 
+
+.Sh ENDPOINT
+An endpoint is a single machine which will communicate via the
+.Xr icinga2 1
+API with a cluster. Endpoints can be assigned the following attributes:
+.Bl -tag -width Ds
+.It Ic host Ar address
+The address or hostname of the machine. If not specified, the daemon will not
+attempt to connect to this endpoint.
+.It Ic port Ar port
+The TCP port the daemon will use to connect to the endpoint. The default is
+5665.
+
+.Sh ZONE
+A zone consists of one or more endpoints that sends and/or receives check
+results, commands and configuration. Zones can be assigned the following
+attributes:
+.Bl -tag -width Ds
+.It Ic endpoints Bq Ar name ...
+A comma-delimited list of endpoints which comprise the zone.
+.It Ic parent Ar name
+The name of a zone to which will receive check results from the local host, 
+.Sh MACROS
+Macros dynamically expand to the built-in plugins' configuration path. 
+.Pp
+Configuration included by macros is required for
+.Xr icinga2 1
+to understand how to execute binaries and process the results. The accepted macros are: 
+.Bl -tag -width Ds
+.It itl
+The Icinga Template Library. These are the corresponding command definitions to
+the built-in check binaries.
+.It plugins
+Check programs which are maintained by the core Icinga2 team.
+.It plugins-contrib
+Check programs maintained by the Icinga2 open source community.
+.It windows-plugins
+Check programs written to run natively on the Windows operating system.
+.It manubulon
+Manubulon Simple Network Management Protocol-based programs.
+.It nscp
+Legacy NSClient++ plugins which require another running daemon for execution. 
+.El
+.Pp
+Macros must be placed between angle brackets
+.Pq Sq <...>
+and are only used as arguments to include directives. For example on a Linux
+host which does not require Windows check definitions:
+.Bd -literal -offset indent
+include <itl>
+include <plugins>
+.Ed
