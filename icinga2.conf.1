@@ -17,11 +17,14 @@ configuration file.
 allow the daemon to participate in an
 .Xr icinga2 1
 cluster.
+.El
 .Pp
 Additional configuration files can be included with the
 .Ic include
-keyword.
-.El
+keyword, for example:
+.Bd -literal -offset indent
+include "/etc/icinga2/windows.conf"
+.Ed
 .Sh CONSTANTS
 Constants can be reused later in the configuration file to avoid repetition. 
 .Sh OBJECTS
@@ -33,8 +36,12 @@ and
 .It Ic object Ar type Ar name Brq ...
 .El
 .Pp
-Followed by a block of attributes to be assigned to that object. 
-
+Followed by a block of attributes to be assigned to that object enclosed in
+braces. The following object types may be specified in
+.Nm :
+.Bl -tag -width "object Endpoint name"
+.It object Ic Endpoint Ar name Brq ...
+.El
 .Sh ENDPOINT
 An endpoint is a single machine which will communicate via the
 .Xr icinga2 1
