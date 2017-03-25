@@ -37,10 +37,12 @@ and
 .El
 .Pp
 Followed by a block of attributes to be assigned to that object enclosed in
-braces. The following object types may be specified in
+braces. The following objects may be specified in
 .Nm :
 .Bl -tag -width "object Endpoint name"
+.It object Ic ApiListener Ar name Brq ...
 .It object Ic Endpoint Ar name Brq ...
+.It object Ic Zone Ar name Brq ...
 .El
 .Sh ENDPOINT
 An endpoint is a single machine which will communicate via the
@@ -53,16 +55,20 @@ attempt to connect to this endpoint.
 .It Ic port Ar port
 The TCP port the daemon will use to connect to the endpoint. The default is
 5665.
-
 .Sh ZONE
 A zone consists of one or more endpoints that sends and/or receives check
 results, commands and configuration. Zones can be assigned the following
 attributes:
 .Bl -tag -width Ds
-.It Ic endpoints Bq Ar name ...
-A comma-delimited list of endpoints which comprise the zone.
-.It Ic parent Ar name
-The name of a zone to which will receive check results from the local host, 
+.It Ic endpoints Bq Ar endpoint ...
+The endpoint, or a comma-delimited list of endpoints which comprise the zone.
+.It Ic parent Ar zone
+If defined,
+.Xr icinga2 1
+configuration and check commands may be received from
+.Ar zone .
+Results of check commands executed by the daemon will be sent to
+.Ar zone .
 .Sh MACROS
 Macros dynamically expand to the built-in plugins' configuration path. 
 .Pp
