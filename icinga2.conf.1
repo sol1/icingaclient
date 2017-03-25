@@ -44,6 +44,24 @@ braces. The following objects may be specified in
 .It object Ic Endpoint Ar name Brq ...
 .It object Ic Zone Ar name Brq ...
 .El
+.Sh APILISTENER
+An ApiListener configures the daemon for establishment of authenticated
+encrypted connections with other hosts through the
+.Xr icinga2 1
+API. The communication protocol is built on X.509 certificates and SSL. For full
+details see Section 6 of the
+.Lk https://docs.icinga.com/icinga2/latest Icinga2 documentation .
+.Pp
+The required attributes of an ApiListener are:
+.Bl -tag -width Ds
+.It Ic cert_path Ar file
+The host's public certificate file.
+.It Ic key_path Ar file
+The host's private key file. This should not be readable by anyone but the user which
+runs the daemon.
+.It Ic ca_path Ar file
+The cluster certificate authority file. This is from the cluster member which
+generates all other certificates.
 .Sh ENDPOINT
 An endpoint is a single machine which will communicate via the
 .Xr icinga2 1
@@ -55,6 +73,7 @@ attempt to connect to this endpoint.
 .It Ic port Ar port
 The TCP port the daemon will use to connect to the endpoint. The default is
 5665.
+.El
 .Sh ZONE
 A zone consists of one or more endpoints that sends and/or receives check
 results, commands and configuration. Zones can be assigned the following
@@ -69,6 +88,7 @@ configuration and check commands may be received from
 .Ar zone .
 Results of check commands executed by the daemon will be sent to
 .Ar zone .
+.El
 .Sh MACROS
 Macros dynamically expand to the built-in plugins' configuration path. 
 .Pp
