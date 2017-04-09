@@ -20,25 +20,15 @@ install: confdir nsis manpath
 
 confdir: 
 	@echo "Checking for Icinga client workspace"
-	@if test -d ${clientdir}; then : ; \
-	else \
-		mkdir ${clientdir}; \
-	fi
+	@mkdir -p ${clientdir}
 
 nsis: 
 	@echo "Checking for dependency: $@" 
-	@if which makensis; then : ; \
-	else \
-		echo "$@ is a dependency but it was not found in PATH."; \
-		exit 1; \
-	fi
+	@which makensis
 
 manpath:
 	@echo "Checking path for manpage installation..."
-	@if test -d ${manpath}; then : ; \
-	else \
-		mkdir -p /usr/local/man/man1 ; \
-	fi
+	@mkdir -p ${manpath}
 
 clean: 
 	echo "Cleaning..."
