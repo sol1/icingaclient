@@ -124,7 +124,7 @@ createClientCert "${client_name}"
 # Compile windows client
 makensis  -DPARENT_NAME="${parent_name}" \
           -DCLIENT_NAME="${client_name}" \
-          "icinga2-setup-windows-child.nsis"
+          "buildlcient.nsis"
 
 cp "icinga2_${client_name}.exe" $CLIENT_OUT_DIR
 	
