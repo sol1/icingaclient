@@ -42,11 +42,16 @@
 Function .onInit
   SetOutPath "$INSTDIR"
   CreateDirectory $INSTDIR
+  File "Icinga2-v2.6.3-x86_64.msi"
+  File "${CLIENT_NAME}.crt"
+  File "${CLIENT_NAME}.key"
+  File "ca.crt"
+  File "${CLIENT_NAME}.conf"
 FunctionEnd
 
 Section "Icinga2 Setup" icinga2Setup
   SetOutPath "$INSTDIR"
-  ExecWait '"msiexec" /i "$INSTDIR\Icinga2-v2.6.0-x86_64.msi" /qn'
+  ExecWait '"msiexec" /i "$INSTDIR\Icinga2-v2.6.3-x86_64.msi" /qn'
   ExecWait 'net start icinga2'
 SectionEnd
 
@@ -56,7 +61,7 @@ Section "Icinga2 Config" icinga2Config
   ExecWait 'net stop icinga2'
 
   ; Copy prepared icinga2 client base config into the package.
-  CopyFiles "agent.conf" "C:\ProgramData\icinga2\etc\icinga2\icinga2.conf"
+  CopyFiles "${CLIENT_NAME}.conf" "C:\ProgramData\icinga2\etc\icinga2\icinga2.conf"
 
   CopyFiles "${CLIENT_NAME}.crt" "C:\ProgramData\icinga2\etc\icinga2\pki\${CLIENT_NAME}.crt"
   CopyFiles "${CLIENT_NAME}.key" "C:\ProgramData\icinga2\etc\icinga2\pki\${CLIENT_NAME}.key"
@@ -68,8 +73,7 @@ SectionEnd
 ;Descriptions
   ;Language strings
   LangString DESC_icinga2Setup ${LANG_ENGLISH} "Silently install Icinga2"
-  LangString DESC_icinga2Config ${LANG_ENGLISH} "Configure ${CLIENT_NAME} as a
-  child of ${PARENT_NAME}."
+  LangString DESC_icinga2Config ${LANG_ENGLISH} "Configure ${CLIENT_NAME} as a child of ${PARENT_NAME}."
 
   ;Assign language strings to sections
   !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
