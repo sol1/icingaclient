@@ -1,48 +1,58 @@
-installpath = "/usr/local/bin"
-manpath = "/usr/local/man/man1"
-clientdir = "/etc/icinga2/scripts/files"
+prog=       icingaclient
 
-files = icingaclient.sh \
-		icinga2.conf \
-		Icinga2-v2.6.0-x86_64.msi \
-		icinga2-setup-windows-child.nsis \
-		Makefile \
-		icingaclient.1 \
-		README.md
+bindir=     /usr/local/bin
+agentdir =  "/var/${prog}"
+libdir=     /usr/local/lib/${prog}
+msi=        Icinga2-v2.6.3-x86_64.msi
 
-install: confdir nsis manpath
-	cp icingaclient.sh ${installpath}/icingaclient
-	cp icinga2.conf ${clientdir}/
-	cp icinga2-setup-windows-child.nsis ${clientdir}/
-	cp Icinga2-v2.6.0-x86_64.msi ${clientdir}/
-	cp icingaclient.1 ${manpath}/
-	mandb
+sharedir=   /usr/local/share/${prog}
+templates=  agent.conf childnode.conf
+nsis=       buildclient.nsis
 
-confdir: 
-	@echo "Checking for Icinga client workspace"
-	@mkdir -p ${clientdir}
+mandir =    /usr/local/man/man1
+man=        ${prog}.1
 
-nsis: 
-	@echo "Checking for dependency: $@" 
-	@which makensis
+# The default target 'build' checks and gathers dependencies.
+build: ${prog} ${man} ${msi} ${nsis} ${templates}
 
-manpath:
-	@echo "Checking path for manpage installation..."
-	@mkdir -p ${manpath}
+${prog}: icingaclient.sh
+	cp icingaclient.sh $@
 
-clean: 
-	echo "Cleaning..."
-	rm	${clientdir}/icingaclient.sh \
-		${clientdir}/icinga2.conf \
-		${clientdir}/icinga2-setup-windows-child.nsis \
-		${clientdir}/Icinga2-v2.6.0-x86_64.msi \
-		${manpath}/icingaclient.1
-	mandb
+${msi}:
+	@echo "Downloading $@..."
+	curl -O https://packages.icinga.com/windows/$@
 
-dist:
-	echo "Creating dist tarball..."
-	@mkdir -p icingaclient
-	@cp -R ${files} icingaclient/
-	@tar -czf icingaclient.tgz icingaclient
-	@rm icingaclient/*
-	@rmdir icingaclient
+${libdir}/${msi}: ${msi}
+	install -Dm 555 ${msi} $@
+
+makensis:
+	@echo "Checking for dependency package $@..."
+	@which $@
+
+${agentdir}:
+	mkdir -p $@
+
+# After a build, install the program.
+install: build ${libdir}/${msi} makensis  ${agentdir}
+	install -m 444 ${man} ${mandir}
+	install -m 444 ${nsis} ${sharedir}
+	@for f in ${templates}; do \
+		install -Dm 444 $$f ${sharedir} \
+		echo "Installed $$f in ${sharedir}"; \
+	done
+	install -m 755 ${prog} ${bindir}
+
+# Useful target for creating a tarball of a build to deploy to Icinga2 hosts
+# which do not have access to the internet.
+dist: build
+	@echo "Creating tarball ${prog}.tar.gz..."
+	@mkdir -p $@
+	@cp -R ${prog} ${man} ${msi} ${nsis} ${templates} $@/
+	@tar -f icingaclient.tar.gz -cz $@
+	@rm $@/*
+	@rmdir $@
+
+# Not a 'real' target since clean deletes temporary working files.
+.PHONY: clean
+clean:
+	rm -f ${prog} ${msi} ${prog}.tar.gz
