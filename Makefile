@@ -1,7 +1,7 @@
 prog=       icingaclient
 
 bindir=     /usr/local/bin
-agentdir =  /var/${prog}
+agentdir=   /var/${prog}
 libdir=     /usr/local/lib/${prog}
 msi=        Icinga2-v2.6.3-x86_64.msi
 
@@ -9,8 +9,11 @@ sharedir=   /usr/local/share/${prog}
 nsis=       buildclient.nsis
 templates=  agent.conf childnode.conf
 
-mandir =    /usr/local/man/man1
-man=        ${prog}.1
+man1=       ${prog}.1
+man1dir=    /usr/local/man/man1
+man5=       icinga2.conf.5 
+man5dir=    /usr/local/man/man5
+
 
 # The default target 'build' checks and gathers dependencies.
 build: ${prog} ${man} ${msi} ${nsis} ${templates}
@@ -34,7 +37,8 @@ ${agentdir}:
 
 # After a build, install the program.
 install: build ${sharedir}/${msi} makensis ${agentdir} ${sharedir}
-	install -m 444 ${man} ${mandir}/
+	install -m 444 ${man1} ${man1dir}/
+	install -m 444 ${man5} ${man5dir}/
 	install -m 444 ${nsis} ${sharedir}/${nsis}
 	@for f in ${templates}; do \
 		install -m 444 $$f ${sharedir}/$$f; \
