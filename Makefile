@@ -22,11 +22,8 @@ ${msi}:
 	@echo "Downloading $@..."
 	curl -O https://packages.icinga.com/windows/$@
 
-${agentdir}/${msi}: ${msi}
+${sharedir}/${msi}: ${msi}
 	install -Dm 555 ${msi} $@
-
-${sharedir}:
-	mkdir -p $@
 
 makensis:
 	@echo "Checking for dependency package $@..."
@@ -36,7 +33,7 @@ ${agentdir}:
 	mkdir -p $@
 
 # After a build, install the program.
-install: build ${agentdir}/${msi} makensis ${agentdir} ${sharedir}
+install: build ${sharedir}/${msi} makensis ${agentdir} ${sharedir}
 	install -m 444 ${man} ${mandir}/
 	install -m 444 ${nsis} ${sharedir}/${nsis}
 	@for f in ${templates}; do \

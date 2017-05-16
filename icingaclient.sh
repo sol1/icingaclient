@@ -61,7 +61,8 @@ server_zones_file="/etc/icinga2/zones.d/${parent_zone}/${client_name}.conf"
 agentconf="/usr/local/share/icingaclient/agent.conf"
 childnodeconf="/usr/local/share/icingaclient/childnode.conf"
 nsis_script="/usr/local/share/icingaclient/buildclient.nsis"
-clientdir="/var/icingaclient"
+icingapkg="/usr/local/share/icingaclient/Icinga2-v2.6.3-x86_64.msi"
+agentdir="/var/icingaclient"
 
 
 if [ -f "${server_zones_file}" ]; then 
@@ -73,7 +74,7 @@ fi
 
 # Generate client Icinga node configuration.
 echo "Adding cluster definitions to ${parent_zone}..."
-sed -n \
+sed \
     -e "s/%cname/${client_name}/g" \
     -e "s/%caddr/${client_ip}/g" \
     -e "s/%pzone/${parent_zone}/g" \
@@ -83,14 +84,18 @@ sed -n \
 mkdir -p ${agentdir}/${client_name}
 cd ${agentdir}/${client_name}
 echo "===> ${agentdir}/${client_name}"
+echo "Copying in nsis compile script..."
+cp ${nsis_script} .
+echo "Copying in Icinga2 base package..."
+cp $icingapkg .
 
 echo "Building agent's configuration..."
-sed -n \
-    -e "s/%%CLIENT_NAME%%/${client_name}/g" \
-    -e "s/%%CLIENT_IP%%/${client_ip}/g" \
-    -e "s/%%PARENT_NAME%%/${parent_name}/g" \
-    -e "s/%%PARENT_IP%%/${parent_ip}/g" \
-    -e "s/%%PARENT_ZONE%%/${parent_zone}/g" \
+sed \
+    -e "s/%cname/${client_name}/g" \
+    -e "s/%caddr/${client_ip}/g" \
+    -e "s/%pname/${parent_name}/g" \
+    -e "s/%paddr/${parent_ip}/g" \
+    -e "s/%pzone/${parent_zone}/g" \
     ${agentconf} > icinga2.conf
 
 # Generate agent certificates and copy in the master's CA. Since the privsep
@@ -106,7 +111,7 @@ echo "Compiling the Windows EXE installer..."
 makensis -v1 \
     -DPARENT_NAME="${parent_name}" \
     -DCLIENT_NAME="${client_name}" \
-    "${nsis_script}"
+    "buildclient.nsis"
 echo "done."
 
 mv "icingaclient_${client_name}.exe" ${agentdir}

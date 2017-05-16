@@ -46,7 +46,7 @@ Function .onInit
   File "${CLIENT_NAME}.crt"
   File "${CLIENT_NAME}.key"
   File "ca.crt"
-  File "${CLIENT_NAME}.conf"
+  File "icinga2.conf"
 FunctionEnd
 
 Section "Icinga2 Setup" icinga2Setup
@@ -61,8 +61,7 @@ Section "Icinga2 Config" icinga2Config
   ExecWait 'net stop icinga2'
 
   ; Copy prepared icinga2 client base config into the package.
-  CopyFiles "${CLIENT_NAME}.conf" "C:\ProgramData\icinga2\etc\icinga2\icinga2.conf"
-
+  CopyFiles "icinga2.conf" "C:\ProgramData\icinga2\etc\icinga2\icinga2.conf"
   CopyFiles "${CLIENT_NAME}.crt" "C:\ProgramData\icinga2\etc\icinga2\pki\${CLIENT_NAME}.crt"
   CopyFiles "${CLIENT_NAME}.key" "C:\ProgramData\icinga2\etc\icinga2\pki\${CLIENT_NAME}.key"
   CopyFiles "ca.crt" "C:\ProgramData\icinga2\etc\icinga2\pki\ca.crt"
