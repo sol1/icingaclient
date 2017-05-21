@@ -2,7 +2,6 @@ prog=       icingaclient
 
 bindir=     /usr/local/bin
 agentdir=   /var/${prog}
-libdir=     /usr/local/lib/${prog}
 msi=        Icinga2-v2.6.3-x86_64.msi
 
 sharedir=   /usr/local/share/${prog}
