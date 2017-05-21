@@ -51,7 +51,7 @@ install: build ${sharedir}/${msi} makensis ${agentdir} ${sharedir}
 dist: build Makefile
 	@echo "Creating tarball ${prog}.tar.gz..."
 	@mkdir -p $@
-	@cp -R ${prog} ${man} ${msi} ${nsis} ${templates} Makefile $@/
+	@cp -R ${prog}.sh ${man} ${msi} ${nsis} ${templates} Makefile $@/
 	@tar -f icingaclient.tar.gz -cz $@
 	@rm $@/*
 	@rmdir $@
