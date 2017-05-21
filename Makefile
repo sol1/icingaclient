@@ -36,8 +36,8 @@ ${agentdir}:
 
 # After a build, install the program.
 install: build ${sharedir}/${msi} makensis ${agentdir} ${sharedir}
-	install -m 444 ${man1} ${man1dir}/
-	install -m 444 ${man5} ${man5dir}/
+	install -Dm 444 ${man1} ${man1dir}/
+	install -Dm 444 ${man5} ${man5dir}/
 	install -m 444 ${nsis} ${sharedir}/${nsis}
 	@for f in ${templates}; do \
 		install -m 444 $$f ${sharedir}/$$f; \
