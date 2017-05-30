@@ -121,8 +121,7 @@ echo "Icinga2 agent installer created: " \
 echo "Cleaning up temporary working files..."
 rm -rf ${agentdir}/${client_name}
 
-echo "Reloading the icinga2 daemon..."
-/etc/init.d/icinga2 restart
 echo "To finish, transfer the generated installer " \
     "to ${client_name} then run it"
+echo "and restart the icinga2 service."
 exit 0
