@@ -15,10 +15,10 @@ man5dir=    /usr/local/man/man5
 
 
 # The default target 'build' checks and gathers dependencies.
-build: ${prog} ${man} ${msi} ${nsis} ${templates}
+build: ${prog} ${man1dir} ${man5dir} ${msi} ${nsis} ${templates}
 
-${prog}: icingaclient.sh
-	cp icingaclient.sh $@
+${man1dir} ${man5dir}:
+	mkdir -p $@
 
 ${msi}:
 	@echo "Downloading $@..."
