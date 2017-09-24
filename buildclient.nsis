@@ -42,7 +42,7 @@
 Function .onInit
   SetOutPath "$INSTDIR"
   CreateDirectory $INSTDIR
-  File "Icinga2-v2.6.3-x86_64.msi"
+  File "Icinga2-v2.7.0-x86_64.msi"
   File "${CLIENT_NAME}.crt"
   File "${CLIENT_NAME}.key"
   File "ca.crt"
@@ -51,7 +51,7 @@ FunctionEnd
 
 Section "Icinga2 Setup" icinga2Setup
   SetOutPath "$INSTDIR"
-  ExecWait '"msiexec" /i "$INSTDIR\Icinga2-v2.6.3-x86_64.msi" /qn'
+  ExecWait '"msiexec" /i "$INSTDIR\Icinga2-v2.7.0-x86_64.msi" /qn'
   ExecWait 'net start icinga2'
 SectionEnd
 
