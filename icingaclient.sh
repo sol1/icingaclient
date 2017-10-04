@@ -61,7 +61,7 @@ server_zones_file="/etc/icinga2/zones.d/${parent_zone}/${client_name}.conf"
 agentconf="/usr/local/share/icingaclient/agent.conf"
 childnodeconf="/usr/local/share/icingaclient/childnode.conf"
 nsis_script="/usr/local/share/icingaclient/buildclient.nsis"
-icingapkg="/usr/local/share/icingaclient/Icinga2-v2.7.0-x86_64.msi"
+icingapkg="/usr/local/share/icingaclient/Icinga2-v2.7.1-x86_64.msi"
 agentdir="/var/icingaclient"
 
 
